@@ -3,11 +3,19 @@ Simple api to connecting to database.
 You don't have to write some code to connect to mysql or sqlite.
 Only you have to type in config hostname,password .etc.
 Immediately you can excute query, without writing code to connect to database.
+Api works on spigot and bungeecord.
 
 How execute query to database. It is very simple.
 ```java
+private final DatabasesAPISpigot databasesAPISpigot = DatabasesAPISpigot.getInstance(); //Return the instance of Api for spigot
 
-
+ try (ResultSet resultSet = databasesAPISpigot.getCurrentSQLDataBase().query("SELECT * FROM test").executeQuery()) { //executing query
+       while (resultSet.next()) {
+          System.out.println(resultSet.getString("ID"));
+       }
+   } catch (SQLException e) {
+       e.printStackTrace();
+   }
 ```
 ```yaml
 hostname: 'localhost'
