@@ -3,17 +3,17 @@ Simple api to connecting to database.
 Maven
 ```xml
 <repositories>
-		<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
-		</repository>
-	</repositories>
+	<repository>
+		<id>jitpack.io</id>
+		<url>https://jitpack.io</url>
+	</repository>
+</repositories>
   
-  <dependency>
-	    <groupId>com.github.timsixth</groupId>
-	    <artifactId>T-DataBasesAPI</artifactId>
-	    <version>Tag</version>
-	</dependency>
+<dependency>
+  <groupId>com.github.timsixth</groupId>
+  <artifactId>T-DataBasesAPI</artifactId>
+  <version>Tag</version>
+</dependency>
 ```
 Gradle
 ```xml
