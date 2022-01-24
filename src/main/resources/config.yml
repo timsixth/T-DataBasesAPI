@@ -1,0 +1,8 @@
+hostname: 'localhost'
+username: 'root'
+password: ''
+database: 'servertestowy'
+port: 3306
+type: MYSQL
+#Avaiable types of databases MYSQL,SQLITE.
+#Please type this databases uppercase.

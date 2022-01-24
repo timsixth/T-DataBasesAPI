@@ -1,0 +1,4 @@
+name: T-DatabasesAPIBungee
+main: pl.timsixth.databasesapi.bungee.DatabasesAPIBungee
+version: 1.0
+author: timsixth
