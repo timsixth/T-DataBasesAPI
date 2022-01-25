@@ -29,10 +29,10 @@ type: MYSQL
 Maven
 ```xml
 <repositories>
-	<repository>
-		<id>jitpack.io</id>
-		<url>https://jitpack.io</url>
-	</repository>
+  <repository>
+     <id>jitpack.io</id>
+     <url>https://jitpack.io</url>
+   </repository>
 </repositories>
   
 <dependency>
@@ -42,14 +42,13 @@ Maven
 </dependency>
 ```
 Gradle
-```xml
+```gradle
 allprojects {
-		repositories {
-			...
-			maven { url 'https://jitpack.io' }
-		}
+   repositories {
+	maven { url 'https://jitpack.io' }
 	}
+}
   dependencies {
-	        implementation 'com.github.timsixth:T-DataBasesAPI:v1.0'
-	}
+	implementation 'com.github.timsixth:T-DataBasesAPI:v1.0'
+}
 ```
