@@ -1,4 +1,4 @@
-Simple api to connecting to database.
+Simple (spigot/bungee plugin) api to connecting to database.
 
 You don't have to write some code to connect to mysql or sqlite.
 Only you have to type in config hostname,password .etc.
