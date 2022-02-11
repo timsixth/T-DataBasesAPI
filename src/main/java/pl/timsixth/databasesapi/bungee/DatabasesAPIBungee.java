@@ -13,6 +13,13 @@ import java.io.File;
 
 public final class DatabasesAPIBungee extends Plugin {
 
+    private static DatabasesAPIBungee databasesAPIBungee;
+    private ISQLDataBase currentSQLDataBase;
+
+    public DatabasesAPIBungee() {
+        databasesAPIBungee = this;
+    }
+
     @SneakyThrows
     @Override
     public void onEnable() {
@@ -28,6 +35,7 @@ public final class DatabasesAPIBungee extends Plugin {
                         configFile.getFile(name).getString("database"),
                         configFile.getFile(name).getInt("port"));
                 mysql.openConnection();
+                currentSQLDataBase = mysql;
                 System.out.println("Successful connected to MySQL");
                 break;
             case SQLITE:
@@ -37,10 +45,18 @@ public final class DatabasesAPIBungee extends Plugin {
                         configFile.getFile(name).getString("password"),
                         configFile.getFile(name).getString("database"),
                         configFile.getFile(name).getInt("port"));
+                currentSQLDataBase = sqlite;
                 File database = sqlite.createDataBase(configFile.getFile(name).getString("database")+".db");
                 sqlite.openConnection(database);
                 break;
         }
     }
 
+    public static DatabasesAPIBungee getInstance() {
+        return databasesAPIBungee;
+    }
+
+    public ISQLDataBase getCurrentSQLDataBase() {
+        return currentSQLDataBase;
+    }
 }
