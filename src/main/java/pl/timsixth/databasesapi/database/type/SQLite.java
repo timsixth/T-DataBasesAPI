@@ -15,7 +15,7 @@ import java.sql.SQLException;
 @NoArgsConstructor
 public class SQLite extends AbstractDataBase implements ISQLite {
 
-    private static Connection connection;
+    private Connection connection;
 
     private File databaseFile;
 

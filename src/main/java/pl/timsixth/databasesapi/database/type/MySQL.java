@@ -12,11 +12,11 @@ import java.sql.SQLException;
 @NoArgsConstructor
 public class MySQL extends AbstractDataBase implements ISQLDataBase{
 
+    private Connection connection;
+
     public MySQL(String hostname, String username, String password, String database, int port) {
         super(hostname, username, password, database, port);
     }
-
-    private static Connection connection;
 
     @Override
     public void openConnection() throws SQLException {
