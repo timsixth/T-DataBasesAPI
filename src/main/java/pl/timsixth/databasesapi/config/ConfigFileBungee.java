@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 
 @RequiredArgsConstructor
+@Deprecated
 public class ConfigFileBungee implements IConfigFileBungee {
 
     private final DatabasesAPIBungee databasesAPIBungee;

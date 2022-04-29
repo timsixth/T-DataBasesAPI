@@ -10,7 +10,7 @@ import pl.timsixth.databasesapi.database.type.MySQL;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.io.File;
-
+@Deprecated
 public final class DatabasesAPIBungee extends Plugin {
 
     private static DatabasesAPIBungee databasesAPIBungee;
@@ -44,14 +44,14 @@ public final class DatabasesAPIBungee extends Plugin {
                         configFile.getFile(name).getString("username"),
                         configFile.getFile(name).getString("password"),
                         configFile.getFile(name).getString("database"),
-                        configFile.getFile(name).getInt("port"));
+                        configFile.getFile(name).getInt("port"),null);
                 currentSQLDataBase = sqlite;
                 File database = sqlite.createDataBase(configFile.getFile(name).getString("database")+".db");
                 sqlite.openConnection(database);
                 break;
         }
     }
-
+    @Deprecated
     public static DatabasesAPIBungee getInstance() {
         return databasesAPIBungee;
     }
