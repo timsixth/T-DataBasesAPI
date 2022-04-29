@@ -17,6 +17,7 @@ private final DatabasesAPISpigot databasesAPISpigot = DatabasesAPISpigot.getInst
        e.printStackTrace();
    }
 ```
+config.yml
 ```yaml
 hostname: 'localhost'
 username: 'root'
