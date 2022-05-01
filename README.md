@@ -7,9 +7,9 @@ Api works on spigot and bungeecord.
 
 How execute query to database. It is very simple.
 ```java
-private final DatabasesAPISpigot databasesAPISpigot = DatabasesAPISpigot.getInstance(); //Get the instance of Api for spigot
+private final DatabasesAPISpigot databasesApiPlugin = DatabasesAPISpigot.getInstance(); //Get the instance of Api for spigot
 
- try (ResultSet resultSet = databasesAPISpigot.getCurrentSQLDataBase().query("SELECT * FROM test").executeQuery()) { //executing query
+ try (ResultSet resultSet = databasesApiPlugin.getCurrentSQLDataBase().query("SELECT * FROM test").executeQuery()) { //executing query
        while (resultSet.next()) {
           System.out.println(resultSet.getString("ID"));
        }

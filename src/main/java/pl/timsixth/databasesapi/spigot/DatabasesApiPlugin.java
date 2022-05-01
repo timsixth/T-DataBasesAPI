@@ -15,15 +15,15 @@ import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.io.File;
 
-public final class DatabasesAPISpigot extends JavaPlugin {
-    private static DatabasesAPISpigot databasesAPISpigot;
+public final class DatabasesApiPlugin extends JavaPlugin {
+    private static DatabasesApiPlugin databasesApiPlugin;
     private ISQLDataBase currentSQLDataBase;
     private IConfigFile configFile;
 
-    private IDataBasesApi dataBasesApi;
+    private static IDataBasesApi dataBasesApi;
 
-    public DatabasesAPISpigot() {
-        databasesAPISpigot = this;
+    public DatabasesApiPlugin() {
+        databasesApiPlugin = this;
     }
 
     @SneakyThrows
@@ -35,17 +35,18 @@ public final class DatabasesAPISpigot extends JavaPlugin {
         saveConfig();
         switch (configFile.getDataBaseType()) {
             case MYSQL:
-                ISQLDataBase mysql = new MySQL(getConfig().getString("hostname"),
-                        getConfig().getString("username"),
-                        getConfig().getString("password"),
-                        getConfig().getString("database"),
-                        getConfig().getInt("port"));
+                ISQLDataBase mysql = new MySQL();
+                mysql.setDatabase(getConfig().getString("database"));
+                mysql.setHostname(getConfig().getString("hostname"));
+                mysql.setPassword(getConfig().getString("password"));
+                mysql.setPort(getConfig().getInt("port"));
+                mysql.setUsername(getConfig().getString("username"));
                 mysql.openConnection();
                 currentSQLDataBase = mysql;
                 Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successful connected to MySQL");
                 break;
             case SQLITE:
-                ISQLite sqlite = new SQLite();
+                ISQLite sqlite = new SQLite(this);
                 sqlite.setDatabase(getConfig().getString("database"));
                 File database = sqlite.createDataBase(sqlite.getDataBase() + ".db");
                 sqlite.openConnection(database);
@@ -58,7 +59,7 @@ public final class DatabasesAPISpigot extends JavaPlugin {
         }
     }
 
-    public IDataBasesApi getApi() {
+    public static IDataBasesApi getApi() {
         return dataBasesApi;
     }
 
@@ -68,23 +69,23 @@ public final class DatabasesAPISpigot extends JavaPlugin {
     }
 
     @Deprecated
-    public static DatabasesAPISpigot getInstance() {
-        return databasesAPISpigot;
+    public static DatabasesApiPlugin getInstance() {
+        return databasesApiPlugin;
     }
 
     @RequiredArgsConstructor
     private static class DatabasesAPI implements IDataBasesApi {
 
-        private final DatabasesAPISpigot databasesAPISpigot;
+        private final DatabasesApiPlugin databasesApiPlugin;
 
         @Override
         public IConfigFile getConfig() {
-            return databasesAPISpigot.configFile;
+            return databasesApiPlugin.configFile;
         }
 
         @Override
         public ISQLDataBase getCurrentSqlDataBase() {
-            return databasesAPISpigot.currentSQLDataBase;
+            return databasesApiPlugin.currentSQLDataBase;
         }
     }
 

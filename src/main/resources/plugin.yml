@@ -1,4 +1,4 @@
-name: T-DatabasesAPISpigot
-main: pl.timsixth.databasesapi.spigot.DatabasesAPISpigot
+name: T-DatabasesApiPlugin
+main: pl.timsixth.databasesapi.spigot.DatabasesApiPlugin
 version: 1.0
 author: timsixth
