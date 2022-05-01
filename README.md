@@ -1,9 +1,9 @@
-Simple (spigot/bungee plugin) api to connecting to database.
-
+Simple (spigot plugin) api to connecting to database.<br/>
+More information on wiki: https://github.com/timsixth/T-DataBasesAPI/wiki<br/>
 You don't have to write some code to connect to mysql or sqlite.
 Only you have to type in config hostname,password .etc.
 Immediately you can excute query, without writing code to connect to database.
-Api works on spigot and bungeecord.
+Api works on spigot.
 
 How execute query to database. It is very simple.
 ```java
@@ -17,6 +17,7 @@ private final DatabasesAPISpigot databasesApiPlugin = DatabasesAPISpigot.getInst
        e.printStackTrace();
    }
 ```
+config.yml
 ```yaml
 hostname: 'localhost'
 username: 'root'
