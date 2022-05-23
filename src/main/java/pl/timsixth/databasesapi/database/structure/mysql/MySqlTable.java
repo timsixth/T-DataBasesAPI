@@ -17,14 +17,14 @@ public class MySqlTable implements ITable {
     private final List<IColumn> columns = new ArrayList<>();
 
     @Override
-    public ITable autoIncrement(String columnName,boolean autoIncrement) {
+    public ITable autoIncrement(String columnName, boolean autoIncrement) {
         IColumn column = getColumn(columnName);
         column.setAutoIncrement(autoIncrement);
         return this;
     }
 
     @Override
-    public ITable primaryKey(String columnName,boolean primaryKey) {
+    public ITable primaryKey(String columnName, boolean primaryKey) {
         IColumn column = getColumn(columnName);
         column.setPrimaryKey(primaryKey);
         return this;
@@ -32,7 +32,7 @@ public class MySqlTable implements ITable {
 
     @Override
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
-        IColumn column = new MySqlColumn(columnName,type,nullable);
+        IColumn column = new MySqlColumn(columnName, type, nullable);
         column.setLength(length);
         columns.add(column);
         return this;
@@ -48,11 +48,39 @@ public class MySqlTable implements ITable {
     @Override
     public void create(String name) throws SQLException {
         String queryToCreateTable = "CREATE TABLE IF NOT EXISTS %s(";
-        String formattedString = String.format(queryToCreateTable,name);
+        String formattedString = String.format(queryToCreateTable, name);
         StringBuilder stringBuilder = new StringBuilder(formattedString);
-        getColumns().forEach(column -> stringBuilder.append(column.getName()).append(" ")
-                .append(column.getDataType().getStringDateType()).append("(").append((int)column.getLength())
-                .append(")").append(")"));
+        getColumns().forEach(column -> {
+            stringBuilder.append(column.getName()).append(" ")
+                    .append(column.getDataType().getStringDateType());
+            if (column.getDataType() == DataType.INT || column.getDataType() == DataType.VARCHAR) {
+                stringBuilder.append("(").append((int) column.getLength())
+                        .append(")");
+            }
+            if (!column.isNullable()) {
+                stringBuilder.append(" NOT NULL");
+            }
+            if (column.isAutoIncrement()) {
+                stringBuilder.append(" AUTO_INCREMENT");
+            }
+            if (column.isPrimaryKey()) {
+                stringBuilder.append(" PRIMARY KEY ");
+            }
+            if (column.getDefaultValue() != null) {
+                if (column.getDataType() == DataType.VARCHAR) {
+                    stringBuilder.append(" DEFAULT '").append(column.getDefaultValue()).append("'");
+                } else {
+                    stringBuilder.append(" DEFAULT ").append(column.getDefaultValue());
+                }
+            }
+
+            if (getColumns().size() > 1) {
+                stringBuilder.append(",");
+            }
+        });
+        stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
+        stringBuilder.append(")");
+        System.out.println(stringBuilder);
         mySQL.query(stringBuilder.toString()).executeUpdate();
     }
 

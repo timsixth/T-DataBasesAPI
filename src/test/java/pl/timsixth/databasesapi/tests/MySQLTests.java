@@ -84,7 +84,13 @@ public class MySQLTests {
 
     @Test
     public void shouldCreateTableWithCreator() throws SQLException {
-        mysql.getTableCreator().createColumn("test123", DataType.VARCHAR, 0, false)
-                .create("test12");
+        mysql.getTableCreator().createColumn("id", DataType.INT, 11, false)
+                .primaryKey("id",true)
+                .autoIncrement("id",true)
+                .createColumn("name",DataType.VARCHAR,40,true)
+                .defaultValue("name","kokos")
+                .createColumn("data",DataType.DATE,0,false)
+                .createColumn("boolean",DataType.BOOLEAN,0,false)
+                .create("test4");
     }
 }
