@@ -3,6 +3,10 @@ package pl.timsixth.databasesapi.database.type;
 import lombok.NoArgsConstructor;
 import pl.timsixth.databasesapi.database.AbstractDataBase;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
+import pl.timsixth.databasesapi.database.async.IAsyncQuery;
+import pl.timsixth.databasesapi.database.async.mysql.AsyncQueryMySQL;
+import pl.timsixth.databasesapi.database.structure.ITable;
+import pl.timsixth.databasesapi.database.structure.mysql.MySqlTable;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +27,6 @@ public class MySQL extends AbstractDataBase implements ISQLDataBase{
         if (connection != null && !connection.isClosed()) {
             return;
         }
-
         connection = DriverManager.getConnection("jdbc:mysql://" + getHostname() + ":" + getPort() + "/" + getDataBase(), getUsername(),
                 getPassword());
     }
@@ -47,6 +50,11 @@ public class MySQL extends AbstractDataBase implements ISQLDataBase{
     }
 
     @Override
+    public IAsyncQuery getAsyncQuery() {
+        return new AsyncQueryMySQL(this);
+    }
+
+    @Override
     public PreparedStatement query(String query) {
         PreparedStatement preparedStatement = null;
         try {
@@ -62,5 +70,10 @@ public class MySQL extends AbstractDataBase implements ISQLDataBase{
             e.printStackTrace();
         }
         return preparedStatement;
+    }
+
+    @Override
+    public ITable getTableCreator() {
+        return new MySqlTable(this);
     }
 }

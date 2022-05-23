@@ -3,7 +3,10 @@ package pl.timsixth.databasesapi.database.type;
 import lombok.NoArgsConstructor;
 import pl.timsixth.databasesapi.database.AbstractDataBase;
 import pl.timsixth.databasesapi.database.ISQLite;
-import pl.timsixth.databasesapi.spigot.DatabasesAPISpigot;
+import pl.timsixth.databasesapi.database.async.IAsyncQuery;
+import pl.timsixth.databasesapi.database.async.sqlite.AsyncQuerySqlite;
+import pl.timsixth.databasesapi.database.structure.ITable;
+import pl.timsixth.databasesapi.spigot.DatabasesApiPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +14,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 @NoArgsConstructor
 public class SQLite extends AbstractDataBase implements ISQLite {
 
@@ -19,10 +21,11 @@ public class SQLite extends AbstractDataBase implements ISQLite {
 
     private File databaseFile;
 
-    public SQLite(String hostname, String username, String password, String database, int port) {
-        super(hostname, username, password, database, port);
-    }
+    private DatabasesApiPlugin databasesApiPlugin;
 
+    public SQLite(DatabasesApiPlugin databasesApiPlugin){
+        this.databasesApiPlugin = databasesApiPlugin;
+    }
     @Override
     public void openConnection(File file) throws SQLException, ClassNotFoundException {
         if (connection != null && !connection.isClosed()) {
@@ -49,6 +52,11 @@ public class SQLite extends AbstractDataBase implements ISQLite {
     }
 
     @Override
+    public IAsyncQuery getAsyncQuery() {
+        return new AsyncQuerySqlite(this);
+    }
+
+    @Override
     public PreparedStatement query(String query) {
         PreparedStatement preparedStatement = null;
         try {
@@ -67,11 +75,16 @@ public class SQLite extends AbstractDataBase implements ISQLite {
     }
 
     @Override
+    public ITable getTableCreator() {
+        return null;
+    }
+
+    @Override
     public File createDataBase(String name) throws IOException {
-        if (!DatabasesAPISpigot.getInstance().getDataFolder().mkdir()) {
-            DatabasesAPISpigot.getInstance().getDataFolder().mkdirs();
+        if (!databasesApiPlugin.getDataFolder().mkdir()) {
+            databasesApiPlugin.getDataFolder().mkdirs();
         }
-        File file = new File(DatabasesAPISpigot.getInstance().getDataFolder(), name);
+        File file = new File(databasesApiPlugin.getDataFolder(), name);
 
         if (!file.exists()) {
             file.createNewFile();

@@ -64,11 +64,6 @@ public final class DatabasesApiPlugin extends JavaPlugin {
     }
 
     @Deprecated
-    public ISQLDataBase getCurrentSQLDataBase() {
-        return currentSQLDataBase;
-    }
-
-    @Deprecated
     public static DatabasesApiPlugin getInstance() {
         return databasesApiPlugin;
     }
