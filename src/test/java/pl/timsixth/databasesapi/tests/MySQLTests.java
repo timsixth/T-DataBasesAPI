@@ -23,7 +23,6 @@ public class MySQLTests {
     public void init() throws SQLException {
         mysql = new MySQL("localhost", "root", "", "servertestowy", 3306);
         mysql.openConnection();
-        //Mockito.mock(Bukkit.class);
     }
 
     @After
