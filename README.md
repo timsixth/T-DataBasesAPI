@@ -45,6 +45,6 @@ allprojects {
 	}
 }
   dependencies {
-	implementation 'com.github.timsixth:T-DataBasesAPI:v1.2'
+	implementation 'com.github.timsixth:T-DataBasesAPI:v1.3'
 }
 ```
