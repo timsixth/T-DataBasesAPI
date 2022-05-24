@@ -1,65 +1,73 @@
 package pl.timsixth.databasesapi.database.structure.sqlite;
 
+import lombok.RequiredArgsConstructor;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.structure.IColumn;
 
+@RequiredArgsConstructor
 public class SqliteColumn implements IColumn {
 
-
+    private final String name;
+    private final DataType dataType;
+    private final boolean isNullable;
+    private double length;
+    private boolean primaryKey;
+    private boolean autoIncrement;
+    private Object defaultValue;
 
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
     public DataType getDataType() {
-        return null;
+        return dataType;
     }
 
     @Override
     public boolean isNullable() {
-        return false;
-    }
-
-    @Override
-    public double getLength() {
-        return 0;
-    }
-
-    @Override
-    public void setLength(double length) {
-
+        return isNullable;
     }
 
     @Override
     public boolean isPrimaryKey() {
-        return false;
+        return primaryKey;
     }
 
     @Override
     public void setPrimaryKey(boolean primaryKey) {
+        this.primaryKey = primaryKey;
+    }
 
+    @Override
+    public double getLength() {
+        return length;
+    }
+
+    @Override
+    public void setLength(double length) {
+        this.length = length;
     }
 
     @Override
     public boolean isAutoIncrement() {
-        return false;
+        return autoIncrement;
     }
 
     @Override
     public void setAutoIncrement(boolean autoIncrement) {
-
+        this.autoIncrement = autoIncrement;
     }
 
     @Override
     public Object getDefaultValue() {
-        return null;
+        return defaultValue;
     }
 
     @Override
-    public void setDefaultValue(Object object) {
-
+    public void setDefaultValue(Object defaultValue) {
+        this.defaultValue = defaultValue;
     }
 }

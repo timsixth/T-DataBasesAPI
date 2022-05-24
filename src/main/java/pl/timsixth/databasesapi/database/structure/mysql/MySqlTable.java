@@ -32,7 +32,7 @@ public class MySqlTable implements ITable {
 
     @Override
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
-        IColumn column = new MySqlColumn(columnName, type, nullable);
+        IColumn column = new MySqlColumn(columnName,type, nullable);
         column.setLength(length);
         columns.add(column);
         return this;
@@ -52,7 +52,7 @@ public class MySqlTable implements ITable {
         StringBuilder stringBuilder = new StringBuilder(formattedString);
         getColumns().forEach(column -> {
             stringBuilder.append(column.getName()).append(" ")
-                    .append(column.getDataType().getStringDateType());
+                    .append(column.getDataType().getTextNameDateType());
             if (column.getDataType() == DataType.INT || column.getDataType() == DataType.VARCHAR) {
                 stringBuilder.append("(").append((int) column.getLength())
                         .append(")");

@@ -1,7 +1,11 @@
 package pl.timsixth.databasesapi.database.async;
 
+import java.sql.ResultSet;
+
 public interface IAsyncQuery {
 
-    int query(String query);
+    int update(String query);
+
+    ResultSet query(String query);
 
 }

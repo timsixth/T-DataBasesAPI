@@ -6,6 +6,7 @@ import pl.timsixth.databasesapi.database.ISQLite;
 import pl.timsixth.databasesapi.database.async.IAsyncQuery;
 import pl.timsixth.databasesapi.database.async.sqlite.AsyncQuerySqlite;
 import pl.timsixth.databasesapi.database.structure.ITable;
+import pl.timsixth.databasesapi.database.structure.sqlite.SqliteTable;
 import pl.timsixth.databasesapi.spigot.DatabasesApiPlugin;
 
 import java.io.File;
@@ -76,7 +77,7 @@ public class SQLite extends AbstractDataBase implements ISQLite {
 
     @Override
     public ITable getTableCreator() {
-        return null;
+        return new SqliteTable(this);
     }
 
     @Override

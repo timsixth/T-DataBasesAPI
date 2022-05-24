@@ -10,7 +10,8 @@ public enum DataType {
     VARCHAR("varchar"),
     DATE("date"),
     BOOLEAN("boolean"),
-    INT("int");
+    INT("int"),
+    INTEGER("integer");
 
-    private final String stringDateType;
+    private final String textNameDateType;
 }

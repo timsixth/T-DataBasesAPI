@@ -10,12 +10,10 @@ public class MySqlColumn implements IColumn {
     private final String name;
     private final DataType dataType;
     private final boolean isNullable;
-
     private double length;
     private boolean primaryKey;
     private boolean autoIncrement;
     private Object defaultValue;
-
     @Override
     public String getName() {
         return name;
@@ -70,4 +68,5 @@ public class MySqlColumn implements IColumn {
     public void setDefaultValue(Object object) {
         this.defaultValue = object;
     }
+
 }

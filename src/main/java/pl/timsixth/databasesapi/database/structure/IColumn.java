@@ -23,4 +23,5 @@ public interface IColumn {
     Object getDefaultValue();
 
     void setDefaultValue(Object object);
+
 }
