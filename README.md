@@ -5,17 +5,12 @@ Only you have to type in config hostname,password .etc.
 Immediately you can excute query, without writing code to connect to database.
 Api works on spigot.
 
-How execute query to database. It is very simple.
+How to execute query to database? It is very simple.
 ```java
-private final DatabasesAPISpigot databasesApiPlugin = DatabasesAPISpigot.getInstance(); //Get the instance of Api for spigot
-
- try (ResultSet resultSet = databasesApiPlugin.getCurrentSQLDataBase().query("SELECT * FROM test").executeQuery()) { //executing query
-       while (resultSet.next()) {
-          System.out.println(resultSet.getString("ID"));
-       }
-   } catch (SQLException e) {
-       e.printStackTrace();
-   }
+ResultSet resultSet = main.getDataBaseApi().getCurrentSqlDataBase().query("SELECT * FROM test").executeQuery();
+while(resultSet.next()){
+    System.out.println(resultSet.getInt("id"))
+}
 ```
 config.yml
 ```yaml
@@ -39,7 +34,7 @@ Maven
 <dependency>
   <groupId>com.github.timsixth</groupId>
   <artifactId>T-DataBasesAPI</artifactId>
-  <version>v1.0</version>
+  <version>v1.2</version>
 </dependency>
 ```
 Gradle
@@ -50,6 +45,6 @@ allprojects {
 	}
 }
   dependencies {
-	implementation 'com.github.timsixth:T-DataBasesAPI:v1.0'
+	implementation 'com.github.timsixth:T-DataBasesAPI:v1.2'
 }
 ```
