@@ -8,25 +8,27 @@ import pl.timsixth.databasesapi.config.ConfigFileSpigot;
 import pl.timsixth.databasesapi.config.IConfigFile;
 import pl.timsixth.databasesapi.database.DataBaseType;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
+import pl.timsixth.databasesapi.database.exception.TableCreatorException;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.type.MySQL;
 import pl.timsixth.databasesapi.spigot.DatabasesApiPlugin;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class MySQLTests {
     private static ISQLDataBase mysql;
-
 
     @Before
     public void init() throws SQLException {
         mysql = new MySQL("localhost", "root", "", "servertestowy", 3306);
         mysql.openConnection();
-    }
-
-    @After
-    public void runAfterTests() {
     }
 
     @Test
@@ -83,14 +85,24 @@ public class MySQLTests {
     }
 
     @Test
-    public void shouldCreateTableWithCreator() throws SQLException {
-        mysql.getTableCreator().createColumn("id", DataType.INT, 11, false)
-                .primaryKey("id",true)
-                .autoIncrement("id",true)
-                .createColumn("name",DataType.VARCHAR,40,true)
-                .defaultValue("name","kokos")
-                .createColumn("data",DataType.DATE,0,false)
-                .createColumn("boolean",DataType.BOOLEAN,0,false)
-                .create("test4");
+    public void shouldCreateTableWithCreator() throws SQLException, TableCreatorException {
+        mysql.getTableCreator()
+                .createColumn("id", DataType.INT, 11, false)
+                .primaryKey("id", true)
+                .autoIncrement("id", true)
+                .createColumn("name", DataType.VARCHAR, 40, true)
+                .defaultValue("name", "kokos")
+                .createColumn("data", DataType.DATE, 0, false)
+                .createColumn("boolean", DataType.BOOLEAN, 0, false)
+                .create("test1");
     }
+
+    @Test
+    public void shouldExecuteAsyncSelectQuery() throws ExecutionException, InterruptedException, SQLException {
+        ResultSet resultSet = mysql.getAsyncQuery().query("SELECT Username FROM test WHERE id = 3");
+        while (resultSet.next()){
+            Assert.assertEquals("user1",resultSet.getString("Username"));
+        }
+    }
+
 }

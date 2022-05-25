@@ -5,6 +5,7 @@ import pl.timsixth.databasesapi.database.async.AbstractAsyncQuery;
 
 public class AsyncQuerySqlite extends AbstractAsyncQuery<ISQLite> {
 
+
     public AsyncQuerySqlite(ISQLite database) {
         super(database);
     }

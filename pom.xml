@@ -6,7 +6,7 @@
 
     <groupId>pl.timsixth</groupId>
     <artifactId>T-DataBasesAPI</artifactId>
-    <version>1.3</version>
+    <version>1.3.1</version>
 
     <repositories>
         <repository>
@@ -18,7 +18,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.22</version>
+            <version>1.18.24</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
@@ -35,7 +35,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.28</version>
+            <version>8.0.29</version>
         </dependency>
     </dependencies>
     <build>

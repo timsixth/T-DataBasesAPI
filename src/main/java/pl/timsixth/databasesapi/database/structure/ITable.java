@@ -1,5 +1,7 @@
 package pl.timsixth.databasesapi.database.structure;
 
+import pl.timsixth.databasesapi.database.exception.TableCreatorException;
+
 import java.sql.SQLException;
 import java.util.List;
 
@@ -10,7 +12,7 @@ public interface ITable {
     ITable createColumn(String columnName, DataType type, double length, boolean nullable);
 
     ITable defaultValue(String columnName, Object value);
-    void create(String name) throws SQLException;
+    void create(String name) throws SQLException, TableCreatorException;
 
     List<IColumn> getColumns();
 

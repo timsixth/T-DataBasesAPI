@@ -1,6 +1,7 @@
 package pl.timsixth.databasesapi.database.structure.sqlite;
 
 import lombok.RequiredArgsConstructor;
+import pl.timsixth.databasesapi.database.exception.TableCreatorException;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.structure.IColumn;
 import pl.timsixth.databasesapi.database.structure.ITable;
@@ -47,6 +48,10 @@ public class SqliteTable implements ITable {
 
     @Override
     public void create(String name) throws SQLException {
+        if (columns.size() < 2){
+            throw new TableCreatorException("Table must have at least 2 columns");
+        }
+
         String queryToCreateTable = "CREATE TABLE IF NOT EXISTS %s(";
         String formattedString = String.format(queryToCreateTable, name);
         StringBuilder stringBuilder = new StringBuilder(formattedString);
@@ -80,7 +85,6 @@ public class SqliteTable implements ITable {
         });
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         stringBuilder.append(")");
-        System.out.println(stringBuilder);
         sqLite.query(stringBuilder.toString()).executeUpdate();
     }
 
