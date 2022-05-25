@@ -20,6 +20,7 @@ public abstract class AbstractAsyncQuery<T extends ISQLDataBase> implements IAsy
     public synchronized int update(String query) throws ExecutionException, InterruptedException {
         ExecutorService executorService = Executors.newCachedThreadPool();
         Future<Integer> future = executorService.submit(() -> database.query(query).executeUpdate());
+        executorService.shutdown();
         return future.get();
     }
 
