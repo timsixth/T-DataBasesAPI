@@ -1,4 +1,4 @@
-package pl.timsixth.databasesapi.spigot;
+package pl.timsixth.databasesapi;
 
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -16,15 +16,10 @@ import pl.timsixth.databasesapi.database.type.SQLite;
 import java.io.File;
 
 public final class DatabasesApiPlugin extends JavaPlugin {
-    private static DatabasesApiPlugin databasesApiPlugin;
     private ISQLDataBase currentSQLDataBase;
     private IConfigFile configFile;
 
     private static IDataBasesApi dataBasesApi;
-
-    public DatabasesApiPlugin() {
-        databasesApiPlugin = this;
-    }
 
     @SneakyThrows
     @Override
@@ -54,7 +49,7 @@ public final class DatabasesApiPlugin extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successful connected to SQLite");
                 break;
             default:
-                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "This database dosent exists");
+                Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "This database doesn't exists");
 
         }
     }
@@ -62,12 +57,6 @@ public final class DatabasesApiPlugin extends JavaPlugin {
     public static IDataBasesApi getApi() {
         return dataBasesApi;
     }
-
-    @Deprecated
-    public static DatabasesApiPlugin getInstance() {
-        return databasesApiPlugin;
-    }
-
     @RequiredArgsConstructor
     private static class DatabasesAPI implements IDataBasesApi {
 

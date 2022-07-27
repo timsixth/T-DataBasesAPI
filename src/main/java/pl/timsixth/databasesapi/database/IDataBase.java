@@ -7,6 +7,7 @@ import java.sql.SQLException;
 public interface IDataBase {
 
     default void openConnection() throws SQLException {
+        throw new UnsupportedOperationException("Not implemented");
     }
 
     void closeConnection() throws SQLException;

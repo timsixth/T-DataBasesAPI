@@ -1,26 +1,15 @@
 package pl.timsixth.databasesapi.tests;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import pl.timsixth.databasesapi.config.ConfigFileSpigot;
-import pl.timsixth.databasesapi.config.IConfigFile;
-import pl.timsixth.databasesapi.database.DataBaseType;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
-import pl.timsixth.databasesapi.database.exception.TableCreatorException;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.type.MySQL;
-import pl.timsixth.databasesapi.spigot.DatabasesApiPlugin;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class MySQLTests {
     private static ISQLDataBase mysql;
@@ -30,44 +19,6 @@ public class MySQLTests {
         mysql = new MySQL("localhost", "root", "", "servertestowy", 3306);
         mysql.openConnection();
     }
-
-    @Test
-    public void shouldConnectToMysql() {
-        try {
-            mysql.openConnection();
-            System.out.println("Successful connected to MySQL");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void shouldConnectDatabaseInConfig() {
-        IConfigFile configFile = new ConfigFileSpigot(DatabasesApiPlugin.getInstance());
-        try {
-            if (configFile.getDataBaseType("MYSQL") == DataBaseType.MYSQL) {
-                mysql.openConnection();
-                System.out.println("Successful connected to MySQL");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void shouldCloseConnectionFromMysql() {
-        try {
-            mysql.closeConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void shouldGetConnection() {
-        mysql.getConnection();
-    }
-
     @Test
     public void shouldExecuteSyncSelectQuery() throws SQLException {
         String sql = "SELECT Username FROM test WHERE id = 3";
@@ -85,7 +36,7 @@ public class MySQLTests {
     }
 
     @Test
-    public void shouldCreateTableWithCreator() throws SQLException, TableCreatorException {
+    public void shouldCreateTableWithCreator() throws SQLException {
         mysql.getTableCreator()
                 .createColumn("id", DataType.INT, 11, false)
                 .primaryKey("id", true)

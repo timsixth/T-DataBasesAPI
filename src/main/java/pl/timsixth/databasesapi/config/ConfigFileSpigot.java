@@ -2,7 +2,7 @@ package pl.timsixth.databasesapi.config;
 
 import lombok.RequiredArgsConstructor;
 import pl.timsixth.databasesapi.database.DataBaseType;
-import pl.timsixth.databasesapi.spigot.DatabasesApiPlugin;
+import pl.timsixth.databasesapi.DatabasesApiPlugin;
 
 @RequiredArgsConstructor
 public class ConfigFileSpigot implements IConfigFile {

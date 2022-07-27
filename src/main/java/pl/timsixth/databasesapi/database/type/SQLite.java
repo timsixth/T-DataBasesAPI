@@ -7,7 +7,7 @@ import pl.timsixth.databasesapi.database.async.IAsyncQuery;
 import pl.timsixth.databasesapi.database.async.sqlite.AsyncQuerySqlite;
 import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.structure.sqlite.SqliteTable;
-import pl.timsixth.databasesapi.spigot.DatabasesApiPlugin;
+import pl.timsixth.databasesapi.DatabasesApiPlugin;
 
 import java.io.File;
 import java.io.IOException;

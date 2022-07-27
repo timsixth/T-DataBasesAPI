@@ -2,53 +2,30 @@ package pl.timsixth.databasesapi.database.structure.sqlite;
 
 import lombok.RequiredArgsConstructor;
 import pl.timsixth.databasesapi.database.exception.TableCreatorException;
+import pl.timsixth.databasesapi.database.structure.AbstractTable;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.structure.IColumn;
 import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 @RequiredArgsConstructor
-public class SqliteTable implements ITable {
+public class SqliteTable extends AbstractTable {
 
     private final SQLite sqLite;
-    private final List<IColumn> columns = new ArrayList<>();
-
-    @Override
-    public ITable autoIncrement(String columnName, boolean autoIncrement) {
-        IColumn column = getColumn(columnName);
-        column.setAutoIncrement(autoIncrement);
-        return this;
-    }
-
-    @Override
-    public ITable primaryKey(String columnName, boolean primaryKey) {
-        IColumn column = getColumn(columnName);
-        column.setPrimaryKey(primaryKey);
-        return this;
-    }
 
     @Override
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
         IColumn column = new SqliteColumn(columnName,type, nullable);
         column.setLength(length);
-        columns.add(column);
-        return this;
-    }
-
-    @Override
-    public ITable defaultValue(String columnName, Object value) {
-        IColumn column = getColumn(columnName);
-        column.setDefaultValue(value);
+        getColumns().add(column);
         return this;
     }
 
     @Override
     public void create(String name) throws SQLException {
-        if (columns.size() < 2){
+        if (getColumns().size() < 2){
             throw new TableCreatorException("Table must have at least 2 columns");
         }
 
@@ -86,17 +63,5 @@ public class SqliteTable implements ITable {
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         stringBuilder.append(")");
         sqLite.query(stringBuilder.toString()).executeUpdate();
-    }
-
-    @Override
-    public List<IColumn> getColumns() {
-        return columns;
-    }
-
-    @Override
-    public IColumn getColumn(String name) {
-        return columns.stream().filter(column -> column.getName().equalsIgnoreCase(name))
-                .findAny()
-                .orElse(null);
     }
 }
