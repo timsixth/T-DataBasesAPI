@@ -34,7 +34,7 @@ Maven
 <dependency>
   <groupId>com.github.timsixth</groupId>
   <artifactId>T-DataBasesAPI</artifactId>
-  <version>v1.3.1</version>
+  <version>v1.3.2</version>
 </dependency>
 ```
 Gradle
@@ -45,6 +45,6 @@ allprojects {
 	}
 }
   dependencies {
-	implementation 'com.github.timsixth:T-DataBasesAPI:v1.3.1'
+	implementation 'com.github.timsixth:T-DataBasesAPI:v1.3.2'
 }
 ```
