@@ -5,6 +5,8 @@ Only you have to type in config hostname,password .etc.
 Immediately you can excute query, without writing code to connect to database.
 Api works on spigot.
 
+JavaDocs: https://timsixth.pl/javadocs/databaesapi/1.3.2/
+
 How to execute query to database? It is very simple.
 ```java
 ResultSet resultSet = main.getDataBaseApi().getCurrentSqlDataBase().query("SELECT * FROM test").executeQuery();
