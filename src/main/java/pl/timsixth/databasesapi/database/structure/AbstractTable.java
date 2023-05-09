@@ -5,6 +5,10 @@ import lombok.RequiredArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is using template method design pattern.
+ * See {@link ITable} to more information
+ */
 @RequiredArgsConstructor
 public abstract class AbstractTable implements ITable {
 

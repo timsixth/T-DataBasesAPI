@@ -1,7 +1,10 @@
 package pl.timsixth.databasesapi.database.structure;
 
 import lombok.RequiredArgsConstructor;
-
+/**
+ * This class is using template method design pattern.
+ * See {@link IColumn} to more information
+ */
 @RequiredArgsConstructor
 public abstract class AbstractColumn implements IColumn{
 

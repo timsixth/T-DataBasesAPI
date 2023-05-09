@@ -3,6 +3,10 @@ package pl.timsixth.databasesapi.database;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+/**
+ * This class is using template method design pattern.
+ * See {@link IDataBase} to more information
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class AbstractDataBase implements IDataBase {

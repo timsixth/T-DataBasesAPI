@@ -4,6 +4,9 @@ import lombok.ToString;
 import pl.timsixth.databasesapi.database.structure.AbstractColumn;
 import pl.timsixth.databasesapi.database.structure.DataType;
 
+/**
+ * Represents SQLite column
+ */
 @ToString
 public class SqliteColumn extends AbstractColumn {
 

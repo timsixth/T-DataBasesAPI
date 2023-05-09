@@ -1,6 +1,5 @@
 package pl.timsixth.databasesapi;
 
-import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -16,8 +15,8 @@ import pl.timsixth.databasesapi.database.type.SQLite;
 import java.io.File;
 
 public final class DatabasesApiPlugin extends JavaPlugin {
-    private ISQLDataBase currentSQLDataBase;
-    private IConfigFile configFile;
+    ISQLDataBase currentSQLDataBase;
+    IConfigFile configFile;
 
     private static IDataBasesApi dataBasesApi;
 
@@ -54,23 +53,10 @@ public final class DatabasesApiPlugin extends JavaPlugin {
         }
     }
 
+    /**
+     * @return databaseApi which included config and currentSQLDatabase
+     */
     public static IDataBasesApi getApi() {
         return dataBasesApi;
     }
-    @RequiredArgsConstructor
-    private static class DatabasesAPI implements IDataBasesApi {
-
-        private final DatabasesApiPlugin databasesApiPlugin;
-
-        @Override
-        public IConfigFile getConfig() {
-            return databasesApiPlugin.configFile;
-        }
-
-        @Override
-        public ISQLDataBase getCurrentSqlDataBase() {
-            return databasesApiPlugin.currentSQLDataBase;
-        }
-    }
-
 }

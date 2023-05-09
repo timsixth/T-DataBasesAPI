@@ -1,8 +1,11 @@
 package pl.timsixth.databasesapi.database.exception;
 
-public class TableCreatorException extends RuntimeException{
+/**
+ *  This exception will be thrown when can not create table by {@link pl.timsixth.databasesapi.database.structure.ITable}
+ */
+public class TableCreatorException extends RuntimeException {
 
-    public TableCreatorException(String message){
+    public TableCreatorException(String message) {
         super(message);
     }
 }

@@ -9,7 +9,10 @@ import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.sql.SQLException;
-
+/**
+ * Represents sqlite table
+ * See {@link ITable} to more information
+ */
 @RequiredArgsConstructor
 public class SqliteTable extends AbstractTable {
 
@@ -23,6 +26,10 @@ public class SqliteTable extends AbstractTable {
         return this;
     }
 
+    /**
+     * @param name of table
+     * @throws SQLException when can not create table
+     */
     @Override
     public void create(String name) throws SQLException {
         if (getColumns().size() < 2){

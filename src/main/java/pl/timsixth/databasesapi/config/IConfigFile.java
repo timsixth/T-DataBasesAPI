@@ -4,6 +4,9 @@ import pl.timsixth.databasesapi.database.DataBaseType;
 
 import java.io.IOException;
 
+/**
+ * Represents config.yml
+ */
 public interface IConfigFile {
 
     DataBaseType getDataBaseType() throws IOException;

@@ -9,7 +9,10 @@ import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.type.MySQL;
 
 import java.sql.SQLException;
-
+/**
+ * Represents mysql table
+ * See {@link ITable} to more information
+ */
 @RequiredArgsConstructor
 public class MySqlTable extends AbstractTable{
 
@@ -22,7 +25,10 @@ public class MySqlTable extends AbstractTable{
         getColumns().add(column);
         return this;
     }
-
+    /**
+     * @param name of table
+     * @throws SQLException when can not create table
+     */
     @Override
     public void create(String name) throws SQLException {
         if (getColumns().size() < 2){

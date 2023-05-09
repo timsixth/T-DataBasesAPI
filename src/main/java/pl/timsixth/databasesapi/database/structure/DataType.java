@@ -3,6 +3,13 @@ package pl.timsixth.databasesapi.database.structure;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+/**
+ * Represents data types in SQL databases
+ * The enum is deprecated because in next version this enum will be replaced in data types classes
+ *
+ * @deprecated
+ */
+@Deprecated
 @RequiredArgsConstructor
 @Getter
 public enum DataType {

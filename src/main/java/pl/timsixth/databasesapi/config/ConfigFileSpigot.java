@@ -4,6 +4,9 @@ import lombok.RequiredArgsConstructor;
 import pl.timsixth.databasesapi.database.DataBaseType;
 import pl.timsixth.databasesapi.DatabasesApiPlugin;
 
+/**
+ * @see IConfigFile
+ */
 @RequiredArgsConstructor
 public class ConfigFileSpigot implements IConfigFile {
 

@@ -8,6 +8,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+/**
+ * This class is using template method design pattern.
+ * See {@link IAsyncQuery} to more information.
+ * Methods in class are executing asynchronous.
+ *
+ * @param <T> every class which extends {{@link ISQLDataBase}}
+ */
 public abstract class AbstractAsyncQuery<T extends ISQLDataBase> implements IAsyncQuery {
 
     private final T database;

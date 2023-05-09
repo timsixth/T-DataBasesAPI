@@ -4,12 +4,25 @@ import pl.timsixth.databasesapi.database.async.IAsyncQuery;
 
 import java.sql.SQLException;
 
+/**
+ * Represents every database
+ */
 public interface IDataBase {
 
+    /**
+     * Opens connection
+     *
+     * @throws SQLException when can not open connection (Only for SQL database)
+     */
     default void openConnection() throws SQLException {
         throw new UnsupportedOperationException("Not implemented");
     }
 
+    /**
+     * Closes connection
+     *
+     * @throws SQLException when can not close connection (Only for SQL database)
+     */
     void closeConnection() throws SQLException;
 
     String getHostname();
@@ -32,6 +45,9 @@ public interface IDataBase {
 
     void setDatabase(String dataBase);
 
+    /**
+     * @return interface to executing async queries
+     */
     IAsyncQuery getAsyncQuery();
 
 }
