@@ -47,7 +47,7 @@ public interface ITable {
     ITable defaultValue(String columnName, Object value);
 
     /**
-     * Creates with sync query new table with name
+     * Creates with async query new table with name
      *
      * @param name of table
      * @throws SQLException when can not create table
