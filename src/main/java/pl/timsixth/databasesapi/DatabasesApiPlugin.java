@@ -9,15 +9,19 @@ import pl.timsixth.databasesapi.config.ConfigFileSpigot;
 import pl.timsixth.databasesapi.config.IConfigFile;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.ISQLite;
+import pl.timsixth.databasesapi.database.migration.DataBaseMigrations;
+import pl.timsixth.databasesapi.database.migration.Migrations;
 import pl.timsixth.databasesapi.database.type.MySQL;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.io.File;
+import java.sql.SQLException;
 
 public final class DatabasesApiPlugin extends JavaPlugin {
     ISQLDataBase currentSQLDataBase;
     IConfigFile configFile;
-
+    Migrations migrations;
+    private DataBaseMigrations dataBaseMigrations;
     private static IDataBasesApi dataBasesApi;
 
     @SneakyThrows
@@ -25,8 +29,12 @@ public final class DatabasesApiPlugin extends JavaPlugin {
     public void onEnable() {
         configFile = new ConfigFileSpigot(this);
         dataBasesApi = new DatabasesAPI(this);
+        dataBaseMigrations = new DataBaseMigrations();
+        migrations = new Migrations(dataBaseMigrations);
+
         getConfig().options().copyDefaults(true);
         saveConfig();
+
         switch (configFile.getDataBaseType()) {
             case MYSQL:
                 ISQLDataBase mysql = new MySQL();
@@ -49,8 +57,22 @@ public final class DatabasesApiPlugin extends JavaPlugin {
                 break;
             default:
                 Bukkit.getConsoleSender().sendMessage(ChatColor.RED + "This database doesn't exists");
-
         }
+
+        dataBaseMigrations.createMigrationsTable();
+        dataBaseMigrations.checkMigrations();
+    }
+
+    @Override
+    public void onDisable() {
+        try {
+            currentSQLDataBase.closeConnection();
+            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successful closed connection");
+        } catch (SQLException e) {
+            Bukkit.getLogger().severe(e.getMessage());
+        }
+        migrations.unload();
+        dataBaseMigrations.unload();
     }
 
     /**

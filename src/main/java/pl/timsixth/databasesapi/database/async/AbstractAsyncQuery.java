@@ -13,7 +13,7 @@ import java.util.concurrent.Future;
  * See {@link IAsyncQuery} to more information.
  * Methods in class are executing asynchronous.
  *
- * @param <T> every class which extends {{@link ISQLDataBase}}
+ * @param <T> every class which extends {@link ISQLDataBase}
  */
 public abstract class AbstractAsyncQuery<T extends ISQLDataBase> implements IAsyncQuery {
 

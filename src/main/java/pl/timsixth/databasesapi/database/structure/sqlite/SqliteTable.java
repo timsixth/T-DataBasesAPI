@@ -9,6 +9,8 @@ import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
+
 /**
  * Represents sqlite table
  * See {@link ITable} to more information
@@ -20,7 +22,7 @@ public class SqliteTable extends AbstractTable {
 
     @Override
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
-        IColumn column = new SqliteColumn(columnName,type, nullable);
+        IColumn column = new SqliteColumn(columnName, type, nullable);
         column.setLength(length);
         getColumns().add(column);
         return this;
@@ -32,7 +34,7 @@ public class SqliteTable extends AbstractTable {
      */
     @Override
     public void create(String name) throws SQLException {
-        if (getColumns().size() < 2){
+        if (getColumns().size() < 2) {
             throw new TableCreatorException("Table must have at least 2 columns");
         }
 
@@ -69,6 +71,10 @@ public class SqliteTable extends AbstractTable {
         });
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         stringBuilder.append(")");
-        sqLite.query(stringBuilder.toString()).executeUpdate();
+        try {
+            sqLite.getAsyncQuery().update(stringBuilder.toString());
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -9,29 +9,32 @@ import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.type.MySQL;
 
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
+
 /**
  * Represents mysql table
  * See {@link ITable} to more information
  */
 @RequiredArgsConstructor
-public class MySqlTable extends AbstractTable{
+public class MySqlTable extends AbstractTable {
 
     private final MySQL mySQL;
 
     @Override
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
-        IColumn column = new MySqlColumn(columnName,type, nullable);
+        IColumn column = new MySqlColumn(columnName, type, nullable);
         column.setLength(length);
         getColumns().add(column);
         return this;
     }
+
     /**
      * @param name of table
      * @throws SQLException when can not create table
      */
     @Override
     public void create(String name) throws SQLException {
-        if (getColumns().size() < 2){
+        if (getColumns().size() < 2) {
             throw new TableCreatorException("Table must have at least 2 columns");
         }
 
@@ -68,6 +71,10 @@ public class MySqlTable extends AbstractTable{
         });
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         stringBuilder.append(")");
-        mySQL.query(stringBuilder.toString()).executeUpdate();
+        try {
+            mySQL.getAsyncQuery().update(stringBuilder.toString());
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
