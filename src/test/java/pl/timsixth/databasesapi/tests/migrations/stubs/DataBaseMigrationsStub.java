@@ -54,7 +54,7 @@ public class DataBaseMigrationsStub extends DataBaseMigrations {
     }
 
     @Override
-    public void migrationsRollback() throws ExecutionException, InterruptedException {
+    public void rollbackMigrations() throws ExecutionException, InterruptedException {
         String truncateMigrationTable = "TRUNCATE " + MIGRATION_TABLE_NAME;
 
         try {

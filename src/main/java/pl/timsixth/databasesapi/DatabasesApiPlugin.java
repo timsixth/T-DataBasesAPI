@@ -21,7 +21,7 @@ public final class DatabasesApiPlugin extends JavaPlugin {
     ISQLDataBase currentSQLDataBase;
     IConfigFile configFile;
     Migrations migrations;
-    private DataBaseMigrations dataBaseMigrations;
+    DataBaseMigrations dataBaseMigrations;
     private static IDataBasesApi dataBasesApi;
 
     @SneakyThrows

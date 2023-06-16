@@ -111,7 +111,7 @@ public class DataBaseMigrations {
     /**
      * Rollbacks all migrations from database
      */
-    public void migrationsRollback() throws ExecutionException, InterruptedException {
+    public void rollbackMigrations() throws ExecutionException, InterruptedException {
         ISQLDataBase currentSqlDataBase = DatabasesApiPlugin.getApi().getCurrentSqlDataBase();
 
         String truncateMigrationTable = "TRUNCATE " + MIGRATION_TABLE_NAME;

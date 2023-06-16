@@ -56,7 +56,7 @@ public class MigrationTest {
 
     @Test
     public void shouldRollbackAllMigrations() throws ExecutionException, InterruptedException {
-        dataBaseMigrationsStub.migrationsRollback();
+        dataBaseMigrationsStub.rollbackMigrations();
 
         assertEquals(0, dataBaseMigrationsStub.getDataBaseMigrations().size());
     }

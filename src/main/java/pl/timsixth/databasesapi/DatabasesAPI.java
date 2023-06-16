@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import pl.timsixth.databasesapi.api.IDataBasesApi;
 import pl.timsixth.databasesapi.config.IConfigFile;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
+import pl.timsixth.databasesapi.database.migration.DataBaseMigrations;
 import pl.timsixth.databasesapi.database.migration.Migrations;
 
 @RequiredArgsConstructor
@@ -24,6 +25,11 @@ public final class DatabasesAPI implements IDataBasesApi {
     @Override
     public Migrations getMigrations() {
         return databasesApiPlugin.migrations;
+    }
+
+    @Override
+    public DataBaseMigrations getDataBaseMigrations() {
+        return databasesApiPlugin.dataBaseMigrations;
     }
 
 }
