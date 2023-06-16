@@ -9,6 +9,7 @@ import pl.timsixth.databasesapi.database.structure.DataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.concurrent.ExecutionException;
 
 @RequiredArgsConstructor
 public class DataBaseMigrationsStub extends DataBaseMigrations {
@@ -50,5 +51,22 @@ public class DataBaseMigrationsStub extends DataBaseMigrations {
         mySQL.query(sql).executeUpdate();
 
         dataBaseMigration.setCurrentVersion(migration.getVersion());
+    }
+
+    @Override
+    public void migrationsRollback() throws ExecutionException, InterruptedException {
+        String truncateMigrationTable = "TRUNCATE " + MIGRATION_TABLE_NAME;
+
+        try {
+            mySQL.getAsyncQuery().update(truncateMigrationTable);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (DataBaseMigration dataBaseMigration : getDataBaseMigrations()) {
+            mySQL.getAsyncQuery().update("DROP TABLE " + dataBaseMigration.getTableName());
+        }
+
+        getDataBaseMigrations().clear();
     }
 }

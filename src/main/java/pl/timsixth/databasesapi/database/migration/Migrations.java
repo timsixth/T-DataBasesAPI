@@ -51,26 +51,45 @@ public final class Migrations {
             Optional<DataBaseMigration> migrationOptional = dataBaseMigrations.getMigration(migration.getTableName());
             if (!migrationOptional.isPresent()) {
                 if (migration instanceof ICreationMigration) {
-                    try {
-                        migration.up();
-                        dataBaseMigrations.addNewMigration(migration);
-                        continue;
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+                    migrateCreateMigration(migration);
+                    continue;
                 }
                 return;
             }
 
             DataBaseMigration migrationFromDataBase = migrationOptional.get();
-            if (migrationFromDataBase.getCurrentVersion() < migration.getVersion()) {
-                if (migration instanceof IEditionMigration) {
-                    try {
-                        migration.up();
-                        dataBaseMigrations.updateMigration(migrationFromDataBase, migration);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
+            migrateEditMigration(migration, migrationFromDataBase);
+        }
+    }
+
+    /**
+     * Migrates only creation migration
+     *
+     * @param migration migration to migrate
+     */
+    private void migrateCreateMigration(IMigration migration) {
+        try {
+            migration.up();
+            dataBaseMigrations.addNewMigration(migration);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Migrates only edition migration
+     *
+     * @param migration             migration to migrate
+     * @param migrationFromDataBase migration in database
+     */
+    private void migrateEditMigration(IMigration migration, DataBaseMigration migrationFromDataBase) {
+        if (migrationFromDataBase.getCurrentVersion() < migration.getVersion()) {
+            if (migration instanceof IEditionMigration) {
+                try {
+                    migration.up();
+                    dataBaseMigrations.updateMigration(migrationFromDataBase, migration);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
                 }
             }
         }
@@ -81,6 +100,23 @@ public final class Migrations {
      */
     public void unload() {
         migrations.clear();
+    }
+
+    /**
+     * Migrates single migration to database
+     *
+     * @param migration migration to migrate
+     */
+    public void migrate(IMigration migration) {
+        Optional<DataBaseMigration> migrationOptional = dataBaseMigrations.getMigration(migration.getTableName());
+
+        if (!migrationOptional.isPresent()) {
+            if (migration instanceof ICreationMigration) {
+                migrateCreateMigration(migration);
+            }
+        } else {
+            migrateEditMigration(migration, migrationOptional.get());
+        }
     }
 
 }

@@ -10,25 +10,32 @@ import pl.timsixth.databasesapi.tests.migrations.stubs.DataBaseMigrationsStub;
 
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+
+import static junit.framework.Assert.assertEquals;
 
 public class MigrationTest {
 
     private Migrations migrations;
+    private CreateUsersTableMigration createUsersTableMigration;
+    private DataBaseMigrationsStub dataBaseMigrationsStub;
 
     @Before
     public void init() throws SQLException {
         MySQL mysql = new MySQL("localhost", "root", "", "servertestowy", 3306);
         mysql.openConnection();
 
-        DataBaseMigrationsStub dataBaseMigrationsStub = new DataBaseMigrationsStub(mysql);
+        dataBaseMigrationsStub = new DataBaseMigrationsStub(mysql);
 
         migrations = new Migrations(dataBaseMigrationsStub);
 
         dataBaseMigrationsStub.createMigrationsTable();
         dataBaseMigrationsStub.checkMigrations();
 
+        createUsersTableMigration = new CreateUsersTableMigration(mysql);
+
         migrations.addMigrations(Arrays.asList(
-                new CreateUsersTableMigration(mysql),
+                createUsersTableMigration,
                 new AlterUsersTableMigration(mysql)
         ));
     }
@@ -36,5 +43,21 @@ public class MigrationTest {
     @Test
     public void shouldMigrateAll() {
         migrations.migrateAll();
+
+        assertEquals(1, dataBaseMigrationsStub.getDataBaseMigrations().size());
+    }
+
+    @Test
+    public void shouldMigrateSingleMigration() {
+        migrations.migrate(createUsersTableMigration);
+
+        assertEquals(1, dataBaseMigrationsStub.getDataBaseMigrations().size());
+    }
+
+    @Test
+    public void shouldRollbackAllMigrations() throws ExecutionException, InterruptedException {
+        dataBaseMigrationsStub.migrationsRollback();
+
+        assertEquals(0, dataBaseMigrationsStub.getDataBaseMigrations().size());
     }
 }

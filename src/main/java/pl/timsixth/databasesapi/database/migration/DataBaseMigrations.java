@@ -1,6 +1,5 @@
 package pl.timsixth.databasesapi.database.migration;
 
-import lombok.AccessLevel;
 import lombok.Getter;
 import pl.timsixth.databasesapi.DatabasesApiPlugin;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
@@ -12,11 +11,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 public class DataBaseMigrations {
     protected final String MIGRATION_TABLE_NAME = "dataBase_migrations";
 
-    @Getter(AccessLevel.PROTECTED)
+    @Getter
     private final List<DataBaseMigration> dataBaseMigrations = new ArrayList<>();
 
     /**
@@ -106,5 +106,26 @@ public class DataBaseMigrations {
         currentSqlDataBase.query(sql).executeUpdate();
 
         dataBaseMigration.setCurrentVersion(migration.getVersion());
+    }
+
+    /**
+     * Rollbacks all migrations from database
+     */
+    public void migrationsRollback() throws ExecutionException, InterruptedException {
+        ISQLDataBase currentSqlDataBase = DatabasesApiPlugin.getApi().getCurrentSqlDataBase();
+
+        String truncateMigrationTable = "TRUNCATE " + MIGRATION_TABLE_NAME;
+
+        try {
+            currentSqlDataBase.getAsyncQuery().update(truncateMigrationTable);
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (DataBaseMigration dataBaseMigration : dataBaseMigrations) {
+            currentSqlDataBase.getAsyncQuery().update("DROP " + dataBaseMigration.getTableName());
+        }
+
+        dataBaseMigrations.clear();
     }
 }
