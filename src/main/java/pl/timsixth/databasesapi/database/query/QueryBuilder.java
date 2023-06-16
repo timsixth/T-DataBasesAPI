@@ -1,6 +1,8 @@
 package pl.timsixth.databasesapi.database.query;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Creates queries
@@ -89,10 +91,15 @@ public final class QueryBuilder {
         query.append(" VALUES(");
 
         for (Object datum : data) {
-            if (datum instanceof String)
-                query.append("'").append(datum).append("'").append(",");
-            else query.append(datum).append(",");
+            if (datum instanceof Collection) {
+                Collection<?> collection = (Collection<?>) datum;
 
+                for (Object object : collection) {
+                    inesrtValue(object);
+                }
+            } else {
+                inesrtValue(datum);
+            }
         }
 
         query.deleteCharAt(query.lastIndexOf(","));
@@ -100,6 +107,12 @@ public final class QueryBuilder {
         query.append(")");
 
         return this;
+    }
+
+    private void inesrtValue(Object datum) {
+        if (datum instanceof String || datum instanceof UUID)
+            query.append("'").append(datum).append("'").append(",");
+        else query.append(datum).append(",");
     }
 
     /**

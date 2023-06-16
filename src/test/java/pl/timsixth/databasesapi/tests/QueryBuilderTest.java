@@ -3,10 +3,10 @@ package pl.timsixth.databasesapi.tests;
 import org.junit.Test;
 import pl.timsixth.databasesapi.database.query.QueryBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+
 public class QueryBuilderTest {
 
     @Test
@@ -74,5 +74,19 @@ public class QueryBuilderTest {
         String query = queryBuilder.update("users", data).build();
 
         assertEquals("UPDATE users SET age = 12, SET username = 'test'", query);
+    }
+
+    @Test
+    public void shouldGenerateInesrtQueryWithListInArgs() {
+        QueryBuilder queryBuilder = new QueryBuilder();
+
+        List<Object> data = new ArrayList<>();
+        data.add("test");
+        data.add(12);
+        data.add(UUID.fromString("4af94c03-9cbd-49f4-a77e-421a2c146160"));
+
+        String query = queryBuilder.insert("test", null, data).build();
+
+        assertEquals("INSERT INTO test VALUES(null,'test',12,'4af94c03-9cbd-49f4-a77e-421a2c146160')", query);
     }
 }
