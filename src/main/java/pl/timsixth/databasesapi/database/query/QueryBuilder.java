@@ -128,11 +128,23 @@ public final class QueryBuilder {
         query.append("UPDATE ").append(table);
 
         data.forEach((key, value) -> {
-            if (value instanceof String)
-                query.append(" SET ").append(key)
-                        .append(" = ").append("'").append(value).append("'").append(",");
-            else query.append(" SET ").append(key)
-                    .append(" = ").append(value).append(",");
+            if (value instanceof String) {
+                if (!query.toString().contains("SET")) {
+                    query.append(" SET ").append(key)
+                            .append(" = ").append("'").append(value).append("'").append(",");
+                } else {
+                    query.append(key)
+                            .append(" = ").append("'").append(value).append("'").append(",");
+                }
+            } else {
+                if (!query.toString().contains("SET")) {
+                    query.append(" SET ").append(key)
+                            .append(" = ").append(value).append(",");
+                } else {
+                    query.append(key)
+                            .append(" = ").append(value).append(",");
+                }
+            }
         });
 
         query.deleteCharAt(query.lastIndexOf(","));

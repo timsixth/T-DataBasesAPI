@@ -73,7 +73,7 @@ public class QueryBuilderTest {
 
         String query = queryBuilder.update("users", data).build();
 
-        assertEquals("UPDATE users SET age = 12, SET username = 'test'", query);
+        assertEquals("UPDATE users SET age = 12,username = 'test'", query);
     }
 
     @Test
