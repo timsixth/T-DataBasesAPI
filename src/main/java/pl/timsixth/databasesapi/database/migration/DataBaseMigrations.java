@@ -21,6 +21,8 @@ public class DataBaseMigrations {
 
     /**
      * Creates dataBaseMigrations table
+     *
+     * @throws SQLException when can not execute query
      */
     public void createMigrationsTable() throws SQLException {
         ISQLDataBase currentSqlDataBase = DatabasesApiPlugin.getApi().getCurrentSqlDataBase();
@@ -95,7 +97,8 @@ public class DataBaseMigrations {
     /**
      * Updates the dataBaseMigrations table when it is not up-to-date
      *
-     * @param migration the migration
+     * @param migration         the migration to migrate
+     * @param dataBaseMigration migration in database
      * @throws SQLException when can not execute query
      */
     public void updateMigration(DataBaseMigration dataBaseMigration, IMigration migration) throws SQLException {
@@ -110,6 +113,9 @@ public class DataBaseMigrations {
 
     /**
      * Rollbacks all migrations from database
+     *
+     * @throws ExecutionException   the exception comes from Future interface
+     * @throws InterruptedException the exception comes from Future interface
      */
     public void rollbackMigrations() throws ExecutionException, InterruptedException {
         ISQLDataBase currentSqlDataBase = DatabasesApiPlugin.getApi().getCurrentSqlDataBase();
