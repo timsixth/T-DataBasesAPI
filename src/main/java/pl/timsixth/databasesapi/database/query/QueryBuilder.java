@@ -43,9 +43,12 @@ public final class QueryBuilder {
      * @return QueryBuilder
      */
     public QueryBuilder delete(String table, String... columnsNames) {
-        query.append("DELETE ");
-
-        setColumns(columnsNames);
+        if (columnsNames.length != 0) {
+            query.append("DELETE ");
+            setColumns(columnsNames);
+        }else {
+            query.append("DELETE");
+        }
 
         from(table);
 
@@ -59,7 +62,7 @@ public final class QueryBuilder {
      * @return QueryBuilder
      */
     public QueryBuilder deleteAll(String table) {
-        return delete(table, "*");
+        return delete(table);
     }
 
     /**

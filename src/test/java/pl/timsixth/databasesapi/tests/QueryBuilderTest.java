@@ -42,7 +42,7 @@ public class QueryBuilderTest {
 
         String query = queryBuilder.deleteAll("users").build();
 
-        assertEquals("DELETE * FROM users", query);
+        assertEquals("DELETE FROM users", query);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class QueryBuilderTest {
 
         String query = queryBuilder.deleteAll("users").where("username = 'test'").build();
 
-        assertEquals("DELETE * FROM users WHERE username = 'test'", query);
+        assertEquals("DELETE FROM users WHERE username = 'test'", query);
     }
 
     @Test
@@ -88,5 +88,22 @@ public class QueryBuilderTest {
         String query = queryBuilder.insert("test", null, data).build();
 
         assertEquals("INSERT INTO test VALUES(null,'test',12,'4af94c03-9cbd-49f4-a77e-421a2c146160')", query);
+    }
+
+    @Test
+    public void shouldGenerateUpdateWithOneSetWithTwoWhereConditionsQuery() {
+        QueryBuilder queryBuilder = new QueryBuilder();
+
+        UUID uuid = UUID.fromString("4af94c03-9cbd-49f4-a77e-421a2c146160");
+        String group = "Admin";
+
+        Map<String, Object> data = new HashMap<>();
+        data.put("username", "test");
+
+        String query = queryBuilder.update("users", data)
+                .where("uuid = '" + uuid + "' AND group = '" + group + "'")
+                .build();
+
+        assertEquals("UPDATE users SET username = 'test' WHERE uuid = '4af94c03-9cbd-49f4-a77e-421a2c146160' AND group = 'Admin'", query);
     }
 }
