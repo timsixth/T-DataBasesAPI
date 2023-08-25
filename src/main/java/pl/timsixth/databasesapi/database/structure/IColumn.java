@@ -1,38 +1,84 @@
 package pl.timsixth.databasesapi.database.structure;
 
+import pl.timsixth.databasesapi.database.structure.datatype.IDataType;
+
 /**
  * Represents every SQL database column
  */
 public interface IColumn {
-
+    /**
+     * Gets colum's name
+     *
+     * @return column name
+     */
     String getName();
 
     /**
      * {@link DataType}
      *
      * @return data type of column
+     * @deprecated
      */
+    @Deprecated
     DataType getDataType();
 
+    /**
+     * @return true is nullable, otherwise null
+     */
     boolean isNullable();
 
     /**
      * @return length in double. For types varchar and int will be cast to int
+     * @deprecated
      */
+    @Deprecated
     double getLength();
 
+    @Deprecated
     void setLength(double length);
 
+    /**
+     * @return true when column has primary key, otherwise null
+     */
     boolean isPrimaryKey();
 
-    void setPrimaryKey(boolean primaryKey);
+    /**
+     * Sets primary key to true or false
+     *
+     * @param value true to set primary key
+     */
+    void setPrimaryKey(boolean value);
 
+    /**
+     * @return true when column has auto increment, otherwise null
+     */
     boolean isAutoIncrement();
 
-    void setAutoIncrement(boolean autoIncrement);
+    /**
+     * Sets auto increment to true or false
+     *
+     * @param value true to set auto increment
+     */
+    void setAutoIncrement(boolean value);
 
+    /**
+     * Gets default value of column
+     *
+     * @return default value
+     */
     Object getDefaultValue();
 
+    /**
+     * Sets default value
+     *
+     * @param object value to set
+     */
     void setDefaultValue(Object object);
 
+    /**
+     * Gets data type of column
+     *
+     * @return data type
+     */
+    IDataType getType();
 }

@@ -1,12 +1,12 @@
 package pl.timsixth.databasesapi.database.structure.sqlite;
 
-import lombok.RequiredArgsConstructor;
+import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.exception.TableCreatorException;
 import pl.timsixth.databasesapi.database.structure.AbstractTable;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.structure.IColumn;
 import pl.timsixth.databasesapi.database.structure.ITable;
-import pl.timsixth.databasesapi.database.type.SQLite;
+import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
 
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
@@ -15,12 +15,14 @@ import java.util.concurrent.ExecutionException;
  * Represents sqlite table
  * See {@link ITable} to more information
  */
-@RequiredArgsConstructor
 public class SqliteTable extends AbstractTable {
 
-    private final SQLite sqLite;
+    public SqliteTable(ISQLDataBase dataBase) {
+        super(dataBase, DataTypes.INTEGER);
+    }
 
     @Override
+    @Deprecated
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
         IColumn column = new SqliteColumn(columnName, type, nullable);
         column.setLength(length);
@@ -33,6 +35,7 @@ public class SqliteTable extends AbstractTable {
      * @throws SQLException when can not create table
      */
     @Override
+    @Deprecated
     public void create(String name) throws SQLException {
         if (getColumns().size() < 2) {
             throw new TableCreatorException("Table must have at least 2 columns");
@@ -72,9 +75,14 @@ public class SqliteTable extends AbstractTable {
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         stringBuilder.append(")");
         try {
-            sqLite.getAsyncQuery().update(stringBuilder.toString());
+            dataBase.getAsyncQuery().update(stringBuilder.toString());
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    protected String getAutoIncrementValue() {
+        return "AUTOINCREMENT";
     }
 }

@@ -6,8 +6,10 @@ import pl.timsixth.databasesapi.database.structure.DataType;
 
 /**
  * Represents SQLite column
+ * @deprecated
  */
 @ToString
+@Deprecated
 public class SqliteColumn extends AbstractColumn {
 
     public SqliteColumn(String name, DataType dataType, boolean isNullable) {

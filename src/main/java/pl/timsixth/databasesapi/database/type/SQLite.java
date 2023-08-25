@@ -1,13 +1,14 @@
 package pl.timsixth.databasesapi.database.type;
 
 import lombok.NoArgsConstructor;
+import org.bukkit.Bukkit;
+import pl.timsixth.databasesapi.DatabasesApiPlugin;
 import pl.timsixth.databasesapi.database.AbstractDataBase;
 import pl.timsixth.databasesapi.database.ISQLite;
 import pl.timsixth.databasesapi.database.async.IAsyncQuery;
 import pl.timsixth.databasesapi.database.async.sqlite.AsyncQuerySqlite;
 import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.structure.sqlite.SqliteTable;
-import pl.timsixth.databasesapi.DatabasesApiPlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+
 @NoArgsConstructor
 public class SQLite extends AbstractDataBase implements ISQLite {
 
@@ -24,9 +26,10 @@ public class SQLite extends AbstractDataBase implements ISQLite {
 
     private DatabasesApiPlugin databasesApiPlugin;
 
-    public SQLite(DatabasesApiPlugin databasesApiPlugin){
+    public SQLite(DatabasesApiPlugin databasesApiPlugin) {
         this.databasesApiPlugin = databasesApiPlugin;
     }
+
     @Override
     public void openConnection(File file) throws SQLException, ClassNotFoundException {
         if (connection != null && !connection.isClosed()) {
@@ -48,7 +51,7 @@ public class SQLite extends AbstractDataBase implements ISQLite {
         try {
             connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe(e.getMessage());
         }
     }
 
@@ -70,7 +73,7 @@ public class SQLite extends AbstractDataBase implements ISQLite {
 
             preparedStatement = connection.prepareStatement(query);
         } catch (SQLException | ClassNotFoundException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe(e.getMessage());
         }
         return preparedStatement;
     }

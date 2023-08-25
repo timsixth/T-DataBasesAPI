@@ -2,14 +2,24 @@ package pl.timsixth.databasesapi.config;
 
 import pl.timsixth.databasesapi.database.DataBaseType;
 
-import java.io.IOException;
-
 /**
  * Represents config.yml
  */
 public interface IConfigFile {
+    /**
+     * Gets database type from config.yml
+     *
+     * @return database type
+     */
+    DataBaseType getDataBaseType();
 
-    DataBaseType getDataBaseType() throws IOException;
+
+    /**
+     * @param name database type from config
+     * @return database type
+     * @deprecated
+     */
+    @Deprecated
     default DataBaseType getDataBaseType(String name) {
         return DataBaseType.valueOf(name.toUpperCase());
     }

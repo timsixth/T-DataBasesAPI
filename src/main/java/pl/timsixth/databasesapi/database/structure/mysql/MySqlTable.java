@@ -1,12 +1,12 @@
 package pl.timsixth.databasesapi.database.structure.mysql;
 
-import lombok.RequiredArgsConstructor;
+import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.exception.TableCreatorException;
 import pl.timsixth.databasesapi.database.structure.AbstractTable;
 import pl.timsixth.databasesapi.database.structure.DataType;
 import pl.timsixth.databasesapi.database.structure.IColumn;
 import pl.timsixth.databasesapi.database.structure.ITable;
-import pl.timsixth.databasesapi.database.type.MySQL;
+import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
 
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
@@ -15,10 +15,11 @@ import java.util.concurrent.ExecutionException;
  * Represents mysql table
  * See {@link ITable} to more information
  */
-@RequiredArgsConstructor
 public class MySqlTable extends AbstractTable {
 
-    private final MySQL mySQL;
+    public MySqlTable(ISQLDataBase dataBase) {
+        super(dataBase, DataTypes.INT);
+    }
 
     @Override
     public ITable createColumn(String columnName, DataType type, double length, boolean nullable) {
@@ -72,9 +73,14 @@ public class MySqlTable extends AbstractTable {
         stringBuilder.deleteCharAt(stringBuilder.lastIndexOf(","));
         stringBuilder.append(")");
         try {
-            mySQL.getAsyncQuery().update(stringBuilder.toString());
+            dataBase.getAsyncQuery().update(stringBuilder.toString());
         } catch (ExecutionException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    protected String getAutoIncrementValue() {
+        return "AUTO_INCREMENT";
     }
 }
