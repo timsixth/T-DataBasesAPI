@@ -3,25 +3,19 @@ package pl.timsixth.databasesapi.database.type;
 import lombok.NoArgsConstructor;
 import org.bukkit.Bukkit;
 import pl.timsixth.databasesapi.DatabasesApiPlugin;
-import pl.timsixth.databasesapi.database.AbstractDataBase;
+import pl.timsixth.databasesapi.database.AbstractSQLDataBase;
 import pl.timsixth.databasesapi.database.ISQLite;
-import pl.timsixth.databasesapi.database.async.IAsyncQuery;
-import pl.timsixth.databasesapi.database.async.sqlite.AsyncQuerySqlite;
 import pl.timsixth.databasesapi.database.structure.ITable;
 import pl.timsixth.databasesapi.database.structure.sqlite.SqliteTable;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 @NoArgsConstructor
-public class SQLite extends AbstractDataBase implements ISQLite {
-
-    private Connection connection;
-
+public class SQLite extends AbstractSQLDataBase implements ISQLite {
     private File databaseFile;
 
     private DatabasesApiPlugin databasesApiPlugin;
@@ -32,32 +26,12 @@ public class SQLite extends AbstractDataBase implements ISQLite {
 
     @Override
     public void openConnection(File file) throws SQLException, ClassNotFoundException {
-        if (connection != null && !connection.isClosed()) {
-            return;
-        }
+        if (connection != null && !connection.isClosed()) return;
+
         String url = "jdbc:sqlite:" + file;
         databaseFile = file;
         Class.forName("org.sqlite.JDBC");
         connection = DriverManager.getConnection(url);
-    }
-
-    @Override
-    public Connection getConnection() {
-        return connection;
-    }
-
-    @Override
-    public void closeConnection() {
-        try {
-            connection.close();
-        } catch (SQLException e) {
-            Bukkit.getLogger().severe(e.getMessage());
-        }
-    }
-
-    @Override
-    public IAsyncQuery getAsyncQuery() {
-        return new AsyncQuerySqlite(this);
     }
 
     @Override
@@ -75,6 +49,7 @@ public class SQLite extends AbstractDataBase implements ISQLite {
         } catch (SQLException | ClassNotFoundException e) {
             Bukkit.getLogger().severe(e.getMessage());
         }
+
         return preparedStatement;
     }
 
@@ -88,11 +63,13 @@ public class SQLite extends AbstractDataBase implements ISQLite {
         if (!databasesApiPlugin.getDataFolder().mkdir()) {
             databasesApiPlugin.getDataFolder().mkdirs();
         }
+
         File file = new File(databasesApiPlugin.getDataFolder(), name);
 
         if (!file.exists()) {
             file.createNewFile();
         }
+
         return file;
     }
 }

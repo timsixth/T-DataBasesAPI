@@ -3,7 +3,9 @@ package pl.timsixth.databasesapi;
 import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import pl.timsixth.databasesapi.api.IDataBasesApi;
 import pl.timsixth.databasesapi.config.ConfigFileSpigot;
 import pl.timsixth.databasesapi.config.IConfigFile;
@@ -15,7 +17,6 @@ import pl.timsixth.databasesapi.database.type.MySQL;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.io.File;
-import java.sql.SQLException;
 
 public final class DatabasesApiPlugin extends JavaPlugin {
     ISQLDataBase currentSQLDataBase;
@@ -23,6 +24,13 @@ public final class DatabasesApiPlugin extends JavaPlugin {
     Migrations migrations;
     DataBaseMigrations dataBaseMigrations;
     private static IDataBasesApi dataBasesApi;
+
+    public DatabasesApiPlugin() {
+    }
+
+    public DatabasesApiPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
+    }
 
     @SneakyThrows
     @Override
@@ -38,7 +46,7 @@ public final class DatabasesApiPlugin extends JavaPlugin {
         switch (configFile.getDataBaseType()) {
             case MYSQL:
                 ISQLDataBase mysql = new MySQL();
-                mysql.setDatabase(getConfig().getString("database"));
+                mysql.setDataBase(getConfig().getString("database"));
                 mysql.setHostname(getConfig().getString("hostname"));
                 mysql.setPassword(getConfig().getString("password"));
                 mysql.setPort(getConfig().getInt("port"));
@@ -49,7 +57,7 @@ public final class DatabasesApiPlugin extends JavaPlugin {
                 break;
             case SQLITE:
                 ISQLite sqlite = new SQLite(this);
-                sqlite.setDatabase(getConfig().getString("database"));
+                sqlite.setDataBase(getConfig().getString("database"));
                 File database = sqlite.createDataBase(sqlite.getDataBase() + ".db");
                 sqlite.openConnection(database);
                 currentSQLDataBase = sqlite;
@@ -65,12 +73,10 @@ public final class DatabasesApiPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        try {
-            currentSQLDataBase.closeConnection();
-            Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successful closed connection");
-        } catch (SQLException e) {
-            Bukkit.getLogger().severe(e.getMessage());
-        }
+        currentSQLDataBase.closeConnection();
+
+        Bukkit.getConsoleSender().sendMessage(ChatColor.GREEN + "Successful closed connection");
+
         migrations.unload();
         dataBaseMigrations.unload();
     }

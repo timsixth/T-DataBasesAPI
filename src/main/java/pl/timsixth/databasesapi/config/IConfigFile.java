@@ -12,16 +12,4 @@ public interface IConfigFile {
      * @return database type
      */
     DataBaseType getDataBaseType();
-
-
-    /**
-     * @param name database type from config
-     * @return database type
-     * @deprecated
-     */
-    @Deprecated
-    default DataBaseType getDataBaseType(String name) {
-        return DataBaseType.valueOf(name.toUpperCase());
-    }
-
 }

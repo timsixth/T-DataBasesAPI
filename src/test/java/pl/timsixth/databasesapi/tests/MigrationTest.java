@@ -1,5 +1,6 @@
 package pl.timsixth.databasesapi.tests;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pl.timsixth.databasesapi.database.migration.Migrations;
@@ -19,10 +20,11 @@ public class MigrationTest {
     private Migrations migrations;
     private CreateUsersTableMigration createUsersTableMigration;
     private DataBaseMigrationsStub dataBaseMigrationsStub;
+    private MySQL mysql;
 
     @Before
     public void init() throws SQLException {
-        MySQL mysql = new MySQL("localhost", "root", "", "servertestowy", 3306);
+        mysql = new MySQL("localhost", "root", "", "testing", 3306);
         mysql.openConnection();
 
         dataBaseMigrationsStub = new DataBaseMigrationsStub(mysql);
@@ -38,6 +40,11 @@ public class MigrationTest {
                 createUsersTableMigration,
                 new AlterUsersTableMigration(mysql)
         ));
+    }
+
+    @After
+    public void tearDown() {
+        mysql.closeConnection();
     }
 
     @Test

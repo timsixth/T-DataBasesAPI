@@ -1,6 +1,7 @@
 package pl.timsixth.databasesapi.tests;
 
 import lombok.SneakyThrows;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
@@ -11,6 +12,7 @@ import pl.timsixth.databasesapi.database.type.MySQL;
 import pl.timsixth.databasesapi.database.type.SQLite;
 
 import java.io.File;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,6 +20,7 @@ public class TableCreatorTest {
 
     private ISQLDataBase mysql;
     private ISQLite sqLite;
+    private File databaseFile;
 
     @SneakyThrows
     @Before
@@ -25,8 +28,22 @@ public class TableCreatorTest {
         mysql = new MySQL("localhost", "root", "", "testing", 3306);
         mysql.openConnection();
 
+        databaseFile = new File("database.db");
+
+        if (!databaseFile.exists()) databaseFile.createNewFile();
+
         sqLite = new SQLite();
-        sqLite.openConnection(new File("database.db"));
+        sqLite.openConnection(databaseFile);
+    }
+
+    @After
+    public void tearDown() throws SQLException {
+        databaseFile.delete();
+
+        mysql.query("DROP TABLE IF EXISTS test2").executeUpdate();
+
+        mysql.closeConnection();
+        sqLite.closeConnection();
     }
 
     @Test

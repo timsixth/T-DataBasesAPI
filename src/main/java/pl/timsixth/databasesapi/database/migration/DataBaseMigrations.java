@@ -3,8 +3,8 @@ package pl.timsixth.databasesapi.database.migration;
 import lombok.Getter;
 import pl.timsixth.databasesapi.DatabasesApiPlugin;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
-import pl.timsixth.databasesapi.database.structure.DataType;
-import pl.timsixth.databasesapi.database.type.SQLite;
+import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
+import pl.timsixth.databasesapi.database.structure.datatype.VarcharDataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,27 +22,20 @@ public class DataBaseMigrations {
     /**
      * Creates dataBaseMigrations table
      *
-     * @throws SQLException when can not execute query
      */
-    public void createMigrationsTable() throws SQLException {
+    public void createMigrationsTable() {
         ISQLDataBase currentSqlDataBase = DatabasesApiPlugin.getApi().getCurrentSqlDataBase();
 
-        if (currentSqlDataBase instanceof SQLite) {
-            createMigrationsTable(currentSqlDataBase, DataType.INTEGER);
-        } else {
-            createMigrationsTable(currentSqlDataBase, DataType.INT);
-        }
+        createMigrationsTable(currentSqlDataBase);
     }
 
 
-    protected void createMigrationsTable(ISQLDataBase dataBase, DataType dataType) throws SQLException {
+    protected void createMigrationsTable(ISQLDataBase dataBase) {
         dataBase.getTableCreator()
-                .createColumn("id", dataType, 11, false)
-                .createColumn("migrated_table", DataType.VARCHAR, 30, false)
-                .createColumn("version", DataType.INT, 11, false)
-                .autoIncrement("id", true)
-                .primaryKey("id", true)
-                .create(MIGRATION_TABLE_NAME);
+                .id()
+                .createColumn("migrated_table", new VarcharDataType(30), false)
+                .createColumn("version", DataTypes.INT, false)
+                .createTable(MIGRATION_TABLE_NAME);
     }
 
     public Optional<DataBaseMigration> getMigration(String tableName) {

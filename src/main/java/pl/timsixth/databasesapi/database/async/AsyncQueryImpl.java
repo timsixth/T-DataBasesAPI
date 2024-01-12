@@ -9,17 +9,14 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 /**
- * This class is using template method design pattern.
  * See {@link IAsyncQuery} to more information.
- * Methods in class are executing asynchronous.
- *
- * @param <T> every class which extends {@link ISQLDataBase}
+ * Methods in class executes asynchronous queries to SQL database.
  */
-public abstract class AbstractAsyncQuery<T extends ISQLDataBase> implements IAsyncQuery {
+public class AsyncQueryImpl implements IAsyncQuery {
 
-    private final T database;
+    private final ISQLDataBase database;
 
-    public AbstractAsyncQuery(T database) {
+    public AsyncQueryImpl(ISQLDataBase database) {
         this.database = database;
     }
 
@@ -28,6 +25,7 @@ public abstract class AbstractAsyncQuery<T extends ISQLDataBase> implements IAsy
         ExecutorService executorService = Executors.newCachedThreadPool();
         Future<Integer> future = executorService.submit(() -> database.query(query).executeUpdate());
         executorService.shutdown();
+
         return future.get();
     }
 
@@ -36,6 +34,7 @@ public abstract class AbstractAsyncQuery<T extends ISQLDataBase> implements IAsy
         ExecutorService executorService = Executors.newCachedThreadPool();
         Future<ResultSet> future = executorService.submit(() -> database.query(query).executeQuery());
         executorService.shutdown();
+
         return future.get();
     }
 

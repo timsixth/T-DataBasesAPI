@@ -2,10 +2,8 @@ package pl.timsixth.databasesapi.tests.migrations;
 
 import lombok.RequiredArgsConstructor;
 import pl.timsixth.databasesapi.database.migration.ICreationMigration;
-import pl.timsixth.databasesapi.database.structure.DataType;
+import pl.timsixth.databasesapi.database.structure.datatype.VarcharDataType;
 import pl.timsixth.databasesapi.database.type.MySQL;
-
-import java.sql.SQLException;
 
 @RequiredArgsConstructor
 public class CreateUsersTableMigration implements ICreationMigration {
@@ -13,14 +11,12 @@ public class CreateUsersTableMigration implements ICreationMigration {
     private final MySQL mySQL;
 
     @Override
-    public void up() throws SQLException {
+    public void up() {
         mySQL.getTableCreator()
-                .createColumn("id", DataType.INT, 11, false)
-                .primaryKey("id", true)
-                .autoIncrement("id", true)
-                .createColumn("name", DataType.VARCHAR, 40, true)
+                .id()
+                .createColumn("name", new VarcharDataType(40), true)
                 .defaultValue("name", "kokos")
-                .create("users_test");
+                .createTable("users_test");
     }
 
     @Override

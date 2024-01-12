@@ -13,8 +13,6 @@ import pl.timsixth.databasesapi.database.structure.datatype.IDataType;
 public abstract class AbstractColumn implements IColumn{
 
     private final String name;
-    @Deprecated
-    private DataType dataType;
     private IDataType type;
     private final boolean isNullable;
     private double length;
@@ -26,11 +24,5 @@ public abstract class AbstractColumn implements IColumn{
         this.name = name;
         this.isNullable = isNullable;
         this.type = type;
-    }
-    @Deprecated
-    public AbstractColumn(String name, DataType dataType, boolean isNullable) {
-        this.name = name;
-        this.dataType = dataType;
-        this.isNullable = isNullable;
     }
 }

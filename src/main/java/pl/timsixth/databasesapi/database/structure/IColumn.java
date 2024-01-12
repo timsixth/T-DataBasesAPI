@@ -14,28 +14,9 @@ public interface IColumn {
     String getName();
 
     /**
-     * {@link DataType}
-     *
-     * @return data type of column
-     * @deprecated
-     */
-    @Deprecated
-    DataType getDataType();
-
-    /**
      * @return true is nullable, otherwise null
      */
     boolean isNullable();
-
-    /**
-     * @return length in double. For types varchar and int will be cast to int
-     * @deprecated
-     */
-    @Deprecated
-    double getLength();
-
-    @Deprecated
-    void setLength(double length);
 
     /**
      * @return true when column has primary key, otherwise null

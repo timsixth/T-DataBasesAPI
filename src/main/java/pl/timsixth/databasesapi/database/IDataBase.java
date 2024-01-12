@@ -1,7 +1,5 @@
 package pl.timsixth.databasesapi.database;
 
-import pl.timsixth.databasesapi.database.async.IAsyncQuery;
-
 import java.sql.SQLException;
 
 /**
@@ -20,10 +18,8 @@ public interface IDataBase {
 
     /**
      * Closes connection
-     *
-     * @throws SQLException when can not close connection (Only for SQL database)
      */
-    void closeConnection() throws SQLException;
+    void closeConnection();
 
     String getHostname();
 
@@ -43,11 +39,5 @@ public interface IDataBase {
 
     void setUsername(String username);
 
-    void setDatabase(String dataBase);
-
-    /**
-     * @return interface to executing async queries
-     */
-    IAsyncQuery getAsyncQuery();
-
+    void setDataBase(String dataBase);
 }

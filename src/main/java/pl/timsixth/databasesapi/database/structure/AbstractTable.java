@@ -22,20 +22,6 @@ public abstract class AbstractTable implements ITable {
     private final List<IColumn> columns = new ArrayList<>();
 
     @Override
-    public ITable autoIncrement(String columnName, boolean autoIncrement) {
-        IColumn column = getColumn(columnName);
-        column.setAutoIncrement(autoIncrement);
-        return this;
-    }
-
-    @Override
-    public ITable primaryKey(String columnName, boolean primaryKey) {
-        IColumn column = getColumn(columnName);
-        column.setPrimaryKey(primaryKey);
-        return this;
-    }
-
-    @Override
     public ITable defaultValue(String columnName, Object value) {
         IColumn column = getColumn(columnName);
         column.setDefaultValue(value);

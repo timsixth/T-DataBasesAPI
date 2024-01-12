@@ -5,7 +5,6 @@ import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.migration.DataBaseMigration;
 import pl.timsixth.databasesapi.database.migration.DataBaseMigrations;
 import pl.timsixth.databasesapi.database.migration.IMigration;
-import pl.timsixth.databasesapi.database.structure.DataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -17,8 +16,8 @@ public class DataBaseMigrationsStub extends DataBaseMigrations {
     private final ISQLDataBase mySQL;
 
     @Override
-    public void createMigrationsTable() throws SQLException {
-        createMigrationsTable(mySQL, DataType.INT);
+    public void createMigrationsTable() {
+        createMigrationsTable(mySQL);
     }
 
     @Override
