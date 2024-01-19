@@ -4,7 +4,6 @@ import lombok.Getter;
 import pl.timsixth.databasesapi.DatabasesApiPlugin;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
-import pl.timsixth.databasesapi.database.structure.datatype.VarcharDataType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +20,6 @@ public class DataBaseMigrations {
 
     /**
      * Creates dataBaseMigrations table
-     *
      */
     public void createMigrationsTable() {
         ISQLDataBase currentSqlDataBase = DatabasesApiPlugin.getApi().getCurrentSqlDataBase();
@@ -33,7 +31,7 @@ public class DataBaseMigrations {
     protected void createMigrationsTable(ISQLDataBase dataBase) {
         dataBase.getTableCreator()
                 .id()
-                .createColumn("migrated_table", new VarcharDataType(30), false)
+                .createColumn("migrated_table", DataTypes.VARCHAR, false)
                 .createColumn("version", DataTypes.INT, false)
                 .createTable(MIGRATION_TABLE_NAME);
     }
