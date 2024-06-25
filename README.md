@@ -21,7 +21,7 @@ username: 'root'
 password: ''
 database: 'servertestowy'
 port: 3306
-type: MYSQL
+type: SQLITE
 ```
 
 Maven
