@@ -62,6 +62,11 @@ public abstract class AbstractTable implements ITable {
     }
 
     @Override
+    public ITable createColumn(String columnName, IDataType type) {
+        return createColumn(columnName, type, false);
+    }
+
+    @Override
     public boolean createTable(String name) {
         if (columns.size() < 2) {
             throw new TableCreatorException("Table must have at least 2 columns");

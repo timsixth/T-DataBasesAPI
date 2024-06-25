@@ -71,4 +71,13 @@ public interface ITable {
      * @return ITable
      */
     ITable id();
+
+    /**
+     * Creates new column, nullable is set to false be default
+     *
+     * @param columnName column which will be set primaryKey
+     * @param type       DataType which will be set to column @{@link IDataType}
+     * @return ITable
+     */
+    ITable createColumn(String columnName, IDataType type);
 }

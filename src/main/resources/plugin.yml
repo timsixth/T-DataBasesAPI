@@ -1,4 +1,4 @@
 name: T-DatabasesApi
 main: pl.timsixth.databasesapi.DatabasesApiPlugin
-version: '1.9.2'
+version: '1.10.0'
 author: timsixth

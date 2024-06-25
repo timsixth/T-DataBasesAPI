@@ -2,3 +2,6 @@
 /out/
 /target/
 /T-DataBasesAPI.iml
+/database.db
+/.idea/
+/javadocs/
