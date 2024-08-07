@@ -7,6 +7,7 @@ import org.junit.Test;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.ISQLite;
 import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
+import pl.timsixth.databasesapi.database.structure.datatype.MySQLDataTypes;
 import pl.timsixth.databasesapi.database.structure.datatype.VarcharDataType;
 import pl.timsixth.databasesapi.database.type.MySQL;
 import pl.timsixth.databasesapi.database.type.SQLite;
@@ -60,6 +61,16 @@ public class TableCreatorTest {
                 .defaultValue("boolean1", true)
                 .createColumn("double1", DataTypes.DOUBLE, false)
                 .defaultValue("double1", 20.3)
+                .createColumn("text1", DataTypes.TEXT, false)
+                .defaultValue("text1", "test123")
+                .createColumn("json1", MySQLDataTypes.JSON)
+                .defaultValue("json1", "{\n" +
+                        "    \"_id\": \"66b381736a49358f4ff06365\",\n" +
+                        "    \"index\": 0,\n" +
+                        "    \"guid\": \"5ee90643-3b27-4bab-b31a-62d8e66d805a\",\n" +
+                        "    \"isActive\": true,\n" +
+                        "    \"balance\": \"$1,216.37\"\n" +
+                        "  }")
                 .createTable("test2");
 
         assertTrue(success);
@@ -80,6 +91,8 @@ public class TableCreatorTest {
                 .defaultValue("boolean1", true)
                 .createColumn("double1", DataTypes.DOUBLE, false)
                 .defaultValue("double1", 20.3)
+                .createColumn("text1", DataTypes.TEXT, false)
+                .defaultValue("text1", "test123")
                 .createTable("test2");
 
         assertTrue(success);

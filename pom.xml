@@ -6,7 +6,7 @@
 
     <groupId>pl.timsixth</groupId>
     <artifactId>T-DataBasesAPI</artifactId>
-    <version>1.10.0</version>
+    <version>1.11.0</version>
 
     <repositories>
         <repository>

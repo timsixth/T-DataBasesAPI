@@ -3,7 +3,7 @@ package pl.timsixth.databasesapi.database.structure.sqlite;
 import pl.timsixth.databasesapi.database.ISQLDataBase;
 import pl.timsixth.databasesapi.database.structure.AbstractTable;
 import pl.timsixth.databasesapi.database.structure.ITable;
-import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
+import pl.timsixth.databasesapi.database.structure.datatype.SQLiteDataTypes;
 
 /**
  * Represents sqlite table
@@ -12,7 +12,7 @@ import pl.timsixth.databasesapi.database.structure.datatype.DataTypes;
 public class SqliteTable extends AbstractTable {
 
     public SqliteTable(ISQLDataBase dataBase) {
-        super(dataBase, DataTypes.INTEGER);
+        super(dataBase, SQLiteDataTypes.INTEGER);
     }
 
     @Override
