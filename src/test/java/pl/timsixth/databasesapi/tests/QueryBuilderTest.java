@@ -106,4 +106,13 @@ public class QueryBuilderTest {
 
         assertEquals("UPDATE users SET username = 'test' WHERE uuid = '4af94c03-9cbd-49f4-a77e-421a2c146160' AND group = 'Admin'", query);
     }
+
+    @Test
+    public void shouldGenerateInsertIntoQueryWithNewQueryBuilderMethod() {
+        String query = QueryBuilder.createQueryBuilder()
+                .insert("users", null, "user", 12)
+                .build();
+
+        assertEquals("INSERT INTO users VALUES(null,'user',12)", query);
+    }
 }

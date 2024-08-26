@@ -11,6 +11,15 @@ public final class QueryBuilder {
     private final StringBuilder query = new StringBuilder();
 
     /**
+     * Creates new instance of query builder
+     *
+     * @return QueryBuilder
+     */
+    public static QueryBuilder createQueryBuilder() {
+        return new QueryBuilder();
+    }
+
+    /**
      * @param table        the table name
      * @param columnsNames columns to queried
      * @return QueryBuilder
@@ -46,7 +55,7 @@ public final class QueryBuilder {
         if (columnsNames.length != 0) {
             query.append("DELETE ");
             setColumns(columnsNames);
-        }else {
+        } else {
             query.append("DELETE");
         }
 
